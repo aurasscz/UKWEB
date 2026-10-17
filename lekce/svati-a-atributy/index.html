@@ -1,0 +1,180 @@
+<!doctype html><html><head><meta charset=utf8><meta name="ukweb-datum" content="2026-10-06"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Svatí a atributy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya+SC:wght@500;700&family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap">
+<style>
+/* Layout: one study wall — sticky control strip, then a responsive grid of picture cards grouped by section; quiz mode covers the text. */
+:root{
+  --bg:#eceef3; --surface:#ffffff; --panel:#f5f3ee; --fg:#1a2140; --muted:#5b6380; --line:#d4d8e3;
+  --lapis:#2b3f8e; --lapis-soft:#e2e7f7; --gold:#9c7622; --gold-soft:#f3ead3;
+  --display:"Alegreya SC", "Palatino Linotype", Palatino, Georgia, serif;
+  --body:"Alegreya Sans", "Gill Sans", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0e1326; --surface:#171e38; --panel:#1f2747; --fg:#ebe8df; --muted:#a3a9c2; --line:#2c355a;
+  --lapis:#9fb1ff; --lapis-soft:#25305c; --gold:#ddb75e; --gold-soft:#3a3220; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#0e1326; --surface:#171e38; --panel:#1f2747; --fg:#ebe8df; --muted:#a3a9c2; --line:#2c355a;
+  --lapis:#9fb1ff; --lapis-soft:#25305c; --gold:#ddb75e; --gold-soft:#3a3220; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.45;margin:0}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:28px 64px}
+header h1{font-family:var(--display);font-weight:700;font-size:clamp(30px,5vw,46px);line-height:1.05;margin:0;color:var(--lapis);text-wrap:balance}
+header p{margin:8px 0 0;color:var(--muted);max-width:62ch}
+
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:12px;margin-top:18px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.chips{display:flex;flex-wrap:wrap;gap:6px;flex:1 1 auto;min-width:0}
+button{font:inherit;cursor:pointer;color:inherit}
+.chip{border:1px solid var(--line);background:var(--surface);padding:5px 12px;border-radius:999px;font-size:14px;font-weight:500}
+.chip[aria-pressed="true"]{background:var(--lapis);border-color:var(--lapis);color:var(--surface)}
+.actions{display:flex;flex-wrap:wrap;gap:6px}
+.btn{border:1px solid var(--gold);background:var(--gold-soft);color:var(--fg);padding:5px 12px;border-radius:6px;font-size:14px;font-weight:700}
+.btn[aria-pressed="true"]{background:var(--gold);color:var(--surface)}
+.btn[hidden]{display:none}
+button:focus-visible{outline:2px solid var(--lapis);outline-offset:2px}
+
+section{margin-top:34px}
+section h2{font-family:var(--display);font-weight:500;font-size:24px;margin:0 0 4px;color:var(--fg);display:flex;align-items:baseline;gap:10px}
+section h2 small{font-family:var(--body);font-size:14px;color:var(--muted);font-weight:400}
+.sub{margin:0 0 14px;color:var(--muted);font-size:15px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.pic{margin:0;aspect-ratio:3/4;max-width:100%;background:var(--panel);display:flex;align-items:center;justify-content:center;padding:10px;position:relative}
+.pic img{max-height:100%;max-width:100%;object-fit:contain;border-radius:4px}
+.pic svg{width:72%;height:auto;color:var(--gold)}
+.pic .noimg{position:absolute;bottom:8px;left:0;right:0;text-align:center;font-size:12px;color:var(--muted)}
+.txt{padding:12px 14px 14px;display:flex;flex-direction:column;gap:6px;min-width:0;position:relative}
+.sec{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0}
+.card h3{font-family:var(--display);font-weight:700;font-size:23px;line-height:1.1;margin:0;color:var(--lapis)}
+.attr{margin:0;font-weight:700;font-size:17px;line-height:1.3}
+.attr b{display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:1px}
+.note{margin:0;font-size:14.5px;color:var(--muted)}
+.tip{margin:0;font-size:13.5px;background:var(--lapis-soft);padding:4px 8px;border-radius:5px;font-style:italic}
+
+/* quiz mode */
+.quiz .card{cursor:pointer}
+.quiz .card .hid{visibility:hidden}
+.quiz .card.open .hid{visibility:visible}
+.quiz .card:not(.open) .txt::after{content:"Kdo to je? Klepni pro odpověď";position:absolute;inset:12px 14px 14px;display:flex;align-items:center;justify-content:center;text-align:center;border:1.5px dashed var(--gold);border-radius:8px;color:var(--gold);font-weight:700;font-size:15px;background:var(--gold-soft)}
+.quiz .card:not(.open) .txt{min-height:120px}
+.score{font-size:14px;color:var(--muted)}
+@media (prefers-reduced-motion:no-preference){.card{transition:transform .15s}.quiz .card:hover{transform:translateY(-2px)}}
+@media (max-width:520px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.card h3{font-size:19px}.attr{font-size:15px}.note{font-size:13.5px}.txt{padding:10px}}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Svatí a jejich atributy</h1>
+    <p>Podle zápisků z dějin umění: apoštolové Petr, Pavel a Jan a světoví svatí (bez českých patronů). Obrázky jsou z tvých zápisků. Kde chyběly, je nakreslený atribut. V režimu <strong>Zkoušení</strong> se jména schovají a karty se odkrývají klepnutím.</p>
+  </header>
+
+  <div class="bar" role="toolbar" aria-label="Filtr a režim">
+    <div class="chips" id="chips"></div>
+    <div class="actions">
+      <button class="btn" id="quiz" aria-pressed="false">Zkoušení</button>
+      <button class="btn" id="shuffle" hidden>Zamíchat</button>
+      <button class="btn" id="reveal" hidden>Odkrýt vše</button>
+      <span class="score" id="score" hidden></span>
+    </div>
+  </div>
+
+  <main id="out"></main>
+</div>
+
+<script>
+const ICON = {
+ 'vit':`<path d="M30 62h60v18q0 36-30 42-30-6-30-42z" fill="var(--panel)"/><path d="M24 62h72"/><path d="M42 150q-8-14 2-24 2 10 8 14M62 152q-8-16 2-28 4 12 10 18M80 150q-6-10 0-20"/><circle cx="48" cy="46" r="4"/><circle cx="64" cy="36" r="3"/><circle cx="76" cy="48" r="2.5"/>`,
+ 'jakub-m':`<path d="M70 152V66"/><path d="M62 66q-6-34 8-52 14 18 8 52z" fill="var(--panel)"/><path d="M34 22q-22 64 0 128"/><path d="M34 22v128" stroke-width="1.5"/>`,
+ 'filip':`<path d="M60 14v136M32 48h56"/><path d="M44 150h32"/>`,
+ 'juda':`<path d="M36 150 60 52"/><path d="M52 56q-6-26 6-38 16 4 12 40z" fill="var(--panel)"/><circle cx="60" cy="30" r="2" fill="currentColor"/><circle cx="64" cy="44" r="2" fill="currentColor"/><path d="M88 152V22M88 22l0-12"/><path d="M88 30q20 4 22 24-12-4-22-2z" fill="var(--panel)"/><path d="M88 34l-10 8 10 4"/>`,
+ 'bartolomej':`<path d="M48 120 92 22q8 12-28 104z" fill="var(--panel)"/><path d="M48 120l-16 26 10 6 22-26z" fill="var(--panel)"/><path d="M42 124l18 6"/>`,
+ 'jidas':`<path d="M46 62q-22 50 4 78h20q26-28 4-78z" fill="var(--panel)"/><path d="M42 60h36"/><path d="M48 60q-4-14 2-20 6 8 10 0 4 8 10 0 6 6 2 20"/><text x="60" y="112" text-anchor="middle" font-family="Alegreya SC, Georgia, serif" font-size="26" fill="currentColor" stroke="none">30</text><circle cx="96" cy="140" r="7"/><circle cx="24" cy="136" r="6"/>`
+};
+const svg = k => `<svg viewBox="0 0 120 160" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[k]}</svg>`;
+
+const SECTIONS = [
+ {id:'apostol', name:'Apoštolové', sub:'Petr, Pavel a Jan'},
+ {id:'svet', name:'Světoví svatí', sub:'Mučedníci, biskupové a řeholníci'}
+];
+
+const S = [
+ // Apoštolové
+ {s:'apostol', n:'sv. Petr', a:'klíče, kohout', d:'Hlavní apoštol, 3× zapřel Krista, první papež, ukřižován hlavou dolů v Římě.', p:'petr'},
+ {s:'apostol', n:'sv. Pavel', a:'meč, kniha', d:'Dříve Šavel, pronásledovatel křesťanů; oslepen a obrácen. Sťat mečem.', p:'pavel'},
+ {s:'apostol', n:'sv. Jan', a:'orel, kalich s jedovatým hádkem (otrávené víno)', d:'„Miláček Páně“, stál pod křížem, napsal evangelium a Apokalypsu. Pokus ho otrávit.', p:'jan-ap'},
+ // Světoví svatí
+ {s:'svet', n:'sv. Martin', a:'voják na (bílém) koni dělí mečem plášť s žebrákem', d:'Římský voják, později poustevník a biskup v Tours. Svátek 11. 11. – „přijel na bílém koni“.', p:'martin'},
+ {s:'svet', n:'sv. Apolena', a:'kleště se zubem', d:'Vytrhali jí zuby; pomocnice při bolesti zubů, patronka zubařů.', p:'apolena'},
+ {s:'svet', n:'sv. Kateřina Alexandrijská', a:'(prasklé) ozubené kolo, meč, koruna', d:'Učená princezna, odmítla pohanského císaře; kolo při mučení prasklo, sťata mečem. Patronka studentů a univerzit.', p:'katerina'},
+ {s:'svet', n:'sv. Markéta', a:'drak, kříž', d:'Ve vězení ji spolkl ďábel v podobě draka, křížem mu rozpárala břicho.', p:'marketa'},
+ {s:'svet', n:'sv. Barbora', a:'věž, kalich (s hostií), meč', d:'Otec ji zavřel do věže a pak setnul (sežehl ho blesk). Patronka horníků a dělostřelců – katedrála v Kutné Hoře.', p:'barbora'},
+ {s:'svet', n:'sv. Mikuláš', a:'biskup, tři zlaté koule (jablka) na knize, kotva/loď', d:'Biskup v Myře, rozdal majetek chudým, utišil bouři na moři. Svátek 6. 12.', p:'mikulas'},
+ {s:'svet', n:'sv. Lucie', a:'oči na misce, dýka v krku, svíce (světlo)', d:'Poslala nápadníkovi své oči; pomocnice při nemocech očí. Lucie = lux, světlo.', p:'lucie'},
+ {s:'svet', n:'sv. Štěpán', a:'kameny (+ palma, jáhenské roucho)', d:'První křesťanský mučedník, ukamenován u hradeb Jeruzaléma. Svátek 26. 12.', p:'stepan'},
+ {s:'svet', n:'sv. Šebestián', a:'šípy, strom/sloup', d:'Velitel stráže Diocletiána, prostřílen šípy (přežil), pak ubit holemi. Ochránce proti moru.', p:'sebestian'},
+ {s:'svet', n:'sv. Florián', a:'římský voják, vědro s vodou, hořící dům', d:'Umučen za Diocletiána; patron hasičů.', p:'florian'},
+ {s:'svet', n:'sv. Vít', a:'kotel s vařícím olejem, kohout, lev', d:'Mladý mučedník za Diocletiána; hozen do kotle s vařícím olejem a lvům, ale přežil. Patron katedrály na Pražském hradě. Svátek 15. 6.', i:'vit'},
+ {s:'svet', n:'sv. Roch', a:'pes (s chlebem), morový vřed na stehně, poutnická hůl', d:'Ošetřoval nemocné morem, sám onemocněl; pes mu nosil jídlo. Ochránce proti moru.', t:'Pomůcka z tvých zápisků: Roch → hroch', p:'roch'},
+ {s:'svet', n:'sv. Vavřinec', a:'rošt', d:'Místo pokladů církve přivedl chudé a nemocné; upečen zaživa na roštu.', p:'vavrinec'},
+ {s:'svet', n:'sv. Kryštof', a:'obr s Ježíškem na ramenou, brodí řeku, opírá se o kmen/hůl', d:'„Nosič Krista“; patron dopravy, cestujících, obchodníků i zlodějů.', p:'krystof'},
+ {s:'svet', n:'sv. Antonín Paduánský', a:'mnich (františkán) s Ježíškem, lilie', d:'Pomocník při hledání ztracených věcí.', p:'antonin'},
+ {s:'svet', n:'sv. Helena', a:'císařovna s korunou a křížem', d:'Matka Konstantina Velikého (313 povolil křesťanství); v Palestině našla Kristův kříž.', p:'helena'},
+ {s:'svet', n:'sv. Jiří', a:'rytíř na koni zabíjí kopím draka', d:'Zachránil město a princeznu; patron rytířů a Anglie. Svátek 24. 4.', p:'jiri'},
+ {s:'svet', n:'sv. Norbert', a:'monstrance, pod nohama ďábel/kacíř', d:'Zakladatel premonstrátů, pohřben na Strahově.', p:'norbert'},
+ {s:'svet', n:'sv. František z Assisi', a:'stigmata (rány na rukou a nohou), hnědý hábit s provazem, ptáci', d:'Rozdal majetek, chudoba a pokora, žebravé řády, sv. Klára, kázal ptáčkům.', p:'frantisek'}
+];
+S.forEach((x,k)=>x.k=k);
+
+const out=document.getElementById('out'), chips=document.getElementById('chips');
+const qBtn=document.getElementById('quiz'), shBtn=document.getElementById('shuffle'), rvBtn=document.getElementById('reveal'), score=document.getElementById('score');
+let filter='all', quiz=false, order=null;
+try{ const st=JSON.parse(localStorage.getItem('svati')||'{}'); if(st.f&&SECTIONS.some(s=>s.id===st.f)) filter=st.f; }catch(e){}
+const save=()=>{try{localStorage.setItem('svati',JSON.stringify({f:filter}))}catch(e){}};
+
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const secName=id=>SECTIONS.find(x=>x.id===id).name;
+function card(x){
+  const pic = x.p ? `<img src="img/${x.p}.jpg" alt="" loading="lazy">`
+                  : `${svg(x.i)}<span class="noimg">atribut (obrázek v zápiscích chybí)</span>`;
+  return `<article class="card" data-k="${x.k}" tabindex="0">
+    <figure class="pic">${pic}</figure>
+    <div class="txt">
+      <p class="sec">${esc(secName(x.s))}</p>
+      <h3 class="hid">${esc(x.n)}</h3>
+      <p class="attr hid"><b>Atribut</b>${esc(x.a)}</p>
+      <p class="note hid">${esc(x.d)}</p>
+      ${x.t?`<p class="tip hid">${esc(x.t)}</p>`:''}
+    </div></article>`;
+}
+function render(){
+  chips.innerHTML=[{id:'all',name:'Vše'},...SECTIONS].map(s=>`<button class="chip" data-f="${s.id}" aria-pressed="${filter===s.id}">${s.id==='all'?'Vše':s.name}</button>`).join('');
+  const list=S.filter(x=>filter==='all'||x.s===filter);
+  if(order){
+    const sorted=order.map(k=>S[k]).filter(x=>list.includes(x));
+    out.innerHTML=`<section><h2>Zamícháno <small>${sorted.length} karet</small></h2><div class="grid">${sorted.map(card).join('')}</div></section>`;
+  } else {
+    out.innerHTML=SECTIONS.filter(s=>filter==='all'||s.id===filter).map(s=>{
+      const xs=list.filter(x=>x.s===s.id);
+      return `<section><h2>${s.name} <small>${xs.length}</small></h2><p class="sub">${s.sub}</p><div class="grid">${xs.map(card).join('')}</div></section>`;
+    }).join('');
+  }
+  document.body.classList.toggle('quiz',quiz);
+  qBtn.setAttribute('aria-pressed',quiz); shBtn.hidden=!quiz; rvBtn.hidden=!quiz; score.hidden=!quiz;
+  rvBtn.textContent='Odkrýt vše'; upd();
+}
+function upd(){ if(!quiz) return; const all=out.querySelectorAll('.card'), op=out.querySelectorAll('.card.open'); score.textContent=`odkryto ${op.length} / ${all.length}`; }
+chips.addEventListener('click',e=>{const b=e.target.closest('.chip'); if(!b) return; filter=b.dataset.f; save(); render();});
+qBtn.addEventListener('click',()=>{quiz=!quiz; if(quiz){shuffle()} else {order=null} render();});
+function shuffle(){const a=S.map(x=>x.k); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]} order=a;}
+shBtn.addEventListener('click',()=>{shuffle(); render(); window.scrollTo({top:0})});
+rvBtn.addEventListener('click',()=>{const cs=out.querySelectorAll('.card'); const anyClosed=[...cs].some(c=>!c.classList.contains('open')); cs.forEach(c=>c.classList.toggle('open',anyClosed)); rvBtn.textContent=anyClosed?'Zakrýt vše':'Odkrýt vše'; upd();});
+const flip=c=>{ if(!quiz||!c) return; c.classList.toggle('open'); upd(); };
+out.addEventListener('click',e=>flip(e.target.closest('.card')));
+out.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();flip(e.target.closest('.card'))}});
+render();
+</script>
+
+</body></html>

@@ -1,0 +1,47 @@
+name: Seznam lekcí
+
+# Po každém nahrání do složky lekce/ přepočítá lekce.json,
+# aby se nová lekce objevila na hlavní stránce.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "lekce/**"
+      - "scripts/**"
+      - ".github/workflows/seznam-lekci.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: seznam-lekci
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Sestavit lekce.json
+        run: python scripts/build_manifest.py
+
+      - name: Uložit změny
+        run: |
+          if git diff --quiet -- lekce.json; then
+            echo "Seznam se nezměnil."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add lekce.json
+          git commit -m "Aktualizovat seznam lekcí"
+          git pull --rebase origin main
+          git push
