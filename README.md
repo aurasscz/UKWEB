@@ -1,4 +1,4 @@
-# UKWEB – Studovna
+# UKWEB – Dějiny umění
 
 Rozcestník na výpisky a procvičovačky. Běží na GitHub Pages:
 **https://aurasscz.github.io/UKWEB/**
@@ -26,7 +26,7 @@ Smazání nebo přejmenování lekce funguje stejně – po commitu se seznam s�
 
 ```
 index.html                 hlavní stránka (seznam lekcí)
-lekce.html                 otevře lekci s lištou „← Studovna“
+lekce.html                 otevře lekci s lištou „← Dějiny umění“
 lekce.json                 seznam lekcí – generuje se automaticky, ručně neupravovat
 lekce/                     sem se nahrávají lekce
 scripts/build_manifest.py  skript, který sestaví lekce.json
