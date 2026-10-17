@@ -1,35 +1,49 @@
-# UKWEB – Dějiny umění
+# Dějiny umění
 
-Rozcestník na výpisky a procvičovačky. Běží na GitHub Pages:
-**https://aurasscz.github.io/UKWEB/**
+**Web:** https://aurasscz.github.io/UKWEB/
 
-## Přidání nové lekce
+Sbírka interaktivních výpisků a procvičovaček na Dějiny umění, kterou jsem si udělal jako
+gymnazista. Každá lekce vznikla ze zápisků z hodin nebo z toho, co bylo na tabuli.
+Nejde jen o přepsaný text: lekce mají režimy na zakrývání, kvízy a karty, které se
+dají otáčet. Učivo se z nich tak dá opravdu procvičit, ne jen přečíst.
 
-1. Otevři složku [`lekce`](lekce) → **Add file** → **Upload files**.
-2. Přetáhni tam stažený artefakt:
-   - jeden soubor, např. `gotika.html`, **nebo**
-   - celou složku, pokud má lekce obrázky (např. `gotika/index.html` + `gotika/img/…`).
-3. **Commit changes**. Za 1–2 minuty je lekce na hlavní stránce.
+Hlavní stránka je zároveň archiv: nové lekce přibývají nahoru a ty starší zůstávají
+dostupné, takže se k nim dá před písemkou nebo maturitou kdykoli vrátit.
 
-Nic dalšího se upravovat nemusí. Akce [`Seznam lekcí`](.github/workflows/seznam-lekci.yml)
-po každém nahrání přepočítá `lekce.json` a hlavní stránka z něj čte.
+## Co tu je
 
-- **Název** lekce = `<title>` v HTML souboru.
-- **Popis** = `<meta name="description">`, jinak první odstavec stránky.
-- **Datum** = kdy byl soubor nahrán. Dá se přepsat:
-  `<meta name="ukweb-datum" content="2026-10-06">`.
-- Soubor nebo složka začínající `_` se na hlavní stránce nezobrazí (např. rozpracovaná lekce).
+| Lekce | Obsah |
+| --- | --- |
+| **Svatí a atributy** | Apoštolové a světoví svatí s obrázky. Poznávání podle atributů, režim zkoušení se zamícháním karet. |
+| **Náboženství z tabule** | Egypt (Atonův kult), judaismus, křesťanství a islám: bůh, postava, místa, symbol, posvátný text. Přehled, zakrývání a kvíz. |
 
-Smazání nebo přejmenování lekce funguje stejně – po commitu se seznam sám aktualizuje.
+Další lekce budou průběžně přibývat.
 
-## Struktura
+## Jak to funguje
 
-```
-index.html                 hlavní stránka (seznam lekcí)
-lekce.html                 otevře lekci s lištou „← Dějiny umění“
-lekce.json                 seznam lekcí – generuje se automaticky, ručně neupravovat
-lekce/                     sem se nahrávají lekce
-scripts/build_manifest.py  skript, který sestaví lekce.json
-```
+Web je čistě statický a běží na GitHub Pages, bez frameworku a bez build kroku na straně
+prohlížeče.
 
-Lokálně: `python scripts/build_manifest.py` a pak `python -m http.server`.
+- Každá lekce je samostatná HTML stránka ve složce [`lekce/`](lekce). Buď jeden soubor,
+  nebo složka s `index.html` a obrázky.
+- Po každém nahrání spustí GitHub Action [`Seznam lekcí`](.github/workflows/seznam-lekci.yml)
+  skript [`build_manifest.py`](scripts/build_manifest.py). Ten projde lekce, vytáhne z nich
+  název, popis a datum a zapíše je do `lekce.json`.
+- [`index.html`](index.html) z `lekce.json` vykreslí přehled s vyhledáváním a s lekcemi
+  seskupenými po měsících.
+- [`lekce.html`](lekce.html) otevře vybranou lekci s lištou pro návrat na přehled.
+
+Díky tomu se nová lekce přidává jen nahráním souboru. Na hlavní stránce není potřeba nic
+ručně upravovat.
+
+## Jak to vzniklo
+
+Lekce i celý web vytvořil **Claude Opus 5.5** (Anthropic) s nastavením úsilí **High**,
+v aplikaci Claude Code. Podklady dodávám já: fotky zápisků, tabule a obrázků z hodin. Claude
+je převádí na interaktivní stránky a stará se o web a jeho nasazení.
+
+## Licence
+
+Kód webu je pod licencí [Apache 2.0](LICENSE). Obrázky uměleckých děl v lekcích pocházejí
+ze školních podkladů a slouží jen ke studiu. Na ně se licence repozitáře nevztahuje, viz
+[NOTICE](NOTICE).
