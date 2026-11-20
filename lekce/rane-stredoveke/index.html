@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Raně středověké umění</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya+SC:wght@500;700&family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap">
+<style>
+/* Studijní stěna: lepkavý pruh s filtry, pod ním karty s obrázky po kapitolách. „Zkoušení“ schová text a zamíchá karty. */
+:root{
+  --bg:#f1ede6; --surface:#fffdf9; --panel:#ebe5da; --fg:#2a1d17; --muted:#6e5d52; --line:#ddd2c3;
+  --accent:#9b3b22; --accent-soft:#f4e1d7; --gold:#93701c; --gold-soft:#f3e8cc;
+  --test:#c0392b; --test-soft:#fbe3df;
+  --display:"Alegreya SC","Palatino Linotype",Palatino,Georgia,serif;
+  --body:"Alegreya Sans","Gill Sans","Segoe UI",system-ui,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#17110e; --surface:#211915; --panel:#2b211c; --fg:#efe6dc; --muted:#b3a294; --line:#3a2d26;
+  --accent:#ec9576; --accent-soft:#40261d; --gold:#deb862; --gold-soft:#3a3020;
+  --test:#ff8a7a; --test-soft:#45201b; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#17110e; --surface:#211915; --panel:#2b211c; --fg:#efe6dc; --muted:#b3a294; --line:#3a2d26;
+  --accent:#ec9576; --accent-soft:#40261d; --gold:#deb862; --gold-soft:#3a3020;
+  --test:#ff8a7a; --test-soft:#45201b; color-scheme:dark }
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.45;margin:0}
+img{max-width:100%}
+.wrap{max-width:1200px;margin:0 auto;padding-inline:16px;padding-block:28px 64px}
+header h1{font-family:var(--display);font-weight:700;font-size:clamp(30px,5vw,46px);line-height:1.05;margin:0;color:var(--accent);text-wrap:balance}
+header p{margin:8px 0 0;color:var(--muted);max-width:66ch}
+.badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--test);background:var(--test-soft);border:1px solid var(--test);border-radius:4px;padding:1px 6px;vertical-align:2px}
+
+.bar{position:sticky;top:0;z-index:5;background:var(--bg);padding-block:12px;margin-top:18px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.chips{display:flex;flex-wrap:wrap;gap:6px;flex:1 1 auto;min-width:0}
+button{font:inherit;cursor:pointer;color:inherit}
+.chip{border:1px solid var(--line);background:var(--surface);padding:5px 12px;border-radius:999px;font-size:14px;font-weight:500}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.actions{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.btn{border:1px solid var(--gold);background:var(--gold-soft);color:var(--fg);padding:5px 12px;border-radius:6px;font-size:14px;font-weight:700}
+.btn[aria-pressed="true"]{background:var(--gold);color:var(--surface)}
+.btn.t{border-color:var(--test);background:var(--test-soft)}
+.btn.t[aria-pressed="true"]{background:var(--test);color:var(--surface)}
+.btn[hidden],.score[hidden]{display:none}
+button:focus-visible,.card:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+section{margin-top:34px}
+section h2{font-family:var(--display);font-weight:500;font-size:24px;margin:0 0 4px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+section h2 small{font-family:var(--body);font-size:14px;color:var(--muted);font-weight:400}
+.sub{margin:0 0 14px;color:var(--muted);font-size:15px;max-width:72ch}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.card.x{border-color:color-mix(in srgb,var(--test) 45%,var(--line))}
+.pic{margin:0;aspect-ratio:4/3;background:var(--panel);position:relative}
+.pic img{position:absolute;inset:8px;width:calc(100% - 16px);height:calc(100% - 16px);object-fit:contain;display:block}
+.zoom{position:absolute;top:8px;right:8px;width:32px;height:32px;border-radius:50%;border:0;background:rgba(0,0,0,.55);color:#fff;display:grid;place-items:center}
+.zoom svg{width:16px;height:16px}
+.pic .badge{position:absolute;top:10px;left:10px;background:var(--test);color:#fff;border-color:var(--test)}
+.thumbs{display:flex;gap:6px;padding:6px 8px 0;overflow-x:auto}
+.thumbs button{flex:none;width:52px;height:40px;padding:0;border:2px solid transparent;border-radius:5px;overflow:hidden;background:var(--panel)}
+.thumbs button[aria-current="true"]{border-color:var(--accent)}
+.thumbs img{width:100%;height:100%;object-fit:cover;display:block}
+.txt{padding:12px 14px 14px;display:flex;flex-direction:column;gap:6px;min-width:0;position:relative;flex:1}
+.sec{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0}
+.card h3{font-family:var(--display);font-weight:700;font-size:22px;line-height:1.1;margin:0;color:var(--accent);overflow-wrap:anywhere}
+.attr{margin:0;font-weight:700;font-size:16.5px;line-height:1.3}
+.note{margin:0;font-size:15px;color:var(--muted)}
+.tip{margin:0;font-size:14px;background:var(--gold-soft);padding:4px 8px;border-radius:5px}
+.tip.warn{background:var(--accent-soft)}
+.empty{margin-top:30px;color:var(--muted)}
+
+/* zkoušení */
+.quiz .card{cursor:pointer}
+.quiz .card .hid{visibility:hidden}
+.quiz .card.open .hid{visibility:visible}
+.quiz .card:not(.open) .txt::after{content:"Co to je? Klepni pro odpověď";position:absolute;inset:12px 14px 14px;display:flex;align-items:center;justify-content:center;text-align:center;border:1.5px dashed var(--gold);border-radius:8px;color:var(--gold);font-weight:700;font-size:15px;background:var(--gold-soft)}
+.quiz .card:not(.open) .txt{min-height:130px}
+.score{font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* zvětšení */
+dialog{border:0;padding:0;background:transparent;max-width:96vw;max-height:94vh}
+dialog::backdrop{background:rgba(10,6,4,.85)}
+dialog img{max-width:96vw;max-height:88vh;display:block;border-radius:6px}
+dialog .close{position:fixed;top:12px;right:12px;width:40px;height:40px;border-radius:50%;border:0;background:#fff;color:#000;font-size:22px;line-height:1}
+dialog p{color:#eee;text-align:center;margin:8px 0 0;font-size:14px}
+
+@media (prefers-reduced-motion:no-preference){.quiz .card{transition:transform .15s}.quiz .card:hover{transform:translateY(-2px)}}
+@media (max-width:560px){.chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:-16px;padding-inline:16px}.chip{flex:none}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.card h3{font-size:18px}.attr{font-size:14.5px}.note{font-size:13.5px}.tip{font-size:13px}.txt{padding:10px}.thumbs button{width:40px;height:32px}.zoom{width:28px;height:28px}.pic .badge{font-size:9.5px;padding:1px 4px;top:6px;left:6px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Raně středověké umění</h1>
+    <p>Výpisky z dějin umění: od Konstantina Velikého po Přemyslovce. Obrázky jsou z tvých zápisků. Jsou tu jen věci, které máš v zápiscích červeně (do testu), i s pojmy a poznámkami k nim. U karet s více obrázky přepínáš náhledy pod fotkou, lupa obrázek zvětší. V režimu <strong>Zkoušení</strong> se schová všechen text a karty se odkrývají klepnutím.</p>
+  </header>
+
+  <div class="bar" role="toolbar" aria-label="Filtr a režim">
+    <div class="chips" id="chips"></div>
+    <div class="actions">
+      <button class="btn" id="quiz" aria-pressed="false">Zkoušení</button>
+      <button class="btn" id="shuffle" hidden>Zamíchat</button>
+      <button class="btn" id="reveal" hidden>Odkrýt vše</button>
+      <span class="score" id="score" hidden></span>
+    </div>
+  </div>
+
+  <main id="out"></main>
+</div>
+
+<dialog id="dlg"><button class="close" id="dlgClose" aria-label="Zavřít">×</button><img id="dlgImg" alt=""><p id="dlgCap"></p></dialog>
+
+<script>
+const SECTIONS = [
+ {id:'rk',   name:'Raně křesťanské', sub:'313 Konstantin Veliký povolil křesťanství; Konstantinova bazilika, Santa Pudenziana (mozaiky), klášter sv. Kateřiny na Sinaji – nejstarší ikony.'},
+ {id:'rav',  name:'Ravenna', sub:'Theodorichovo mauzoleum, baptisterium, San Vitale (Justinián I. a Theodora).'},
+ {id:'byz',  name:'Byzantské', sub:'Chrám sv. Marka v Benátkách, sv. Sofie v Kyjevě, chrám Vasila Blaženého v Moskvě.'},
+ {id:'isl',  name:'Islámské', sub:'Mekka – Kaaba, Skalní dóm, Modrá mešita, Velká mešita v Cordobě, typy mešit, Granada – Lví dvůr a Alhambra.'},
+ {id:'barb', name:'Barbarské', sub:'Zvěrné motivy, stylizace: langobardská železná koruna, drakar, irský kříž, evangeliáře z Durrow a Kellsu.'},
+ {id:'kar',  name:'Karolinská renesance', sub:'Palácová kaple v Cáchách, Ingelheim, jezdecká soška Karla Velikého, Kodex aureus.'},
+ {id:'oto',  name:'Otonská renesance', sub:'Bazilika v Hildesheimu, koruna Svaté říše římské, Evangeliář Oty III.'},
+ {id:'slov', name:'Slovanské umění', sub:'Uherská Svatoštěpánská koruna, Svantovít.'},
+ {id:'vm',   name:'Velká Morava', sub:'Archeoskanzen Modrá, Mikulčice, Sady (Konstantin a Metoděj), zlatnické techniky: granulace a filigrán, gombík, záveskové náušnice, nákončí, terčík Sokolník.'},
+ {id:'cz',   name:'Čechy – Přemyslovci', sub:'Spytihněv I. – Budeč, Vratislav I. – sv. Jiří, sv. Václav – sv. Vít, slavníkovská Libice.'}
+];
+
+// n = název, a = hlavní věc, d = poznámka, t = pomůcka/poznámka ze zápisků, w = upozornění, x = v testu (červeně), p = obrázky
+const S = [
+ // Raně křesťanské
+ {s:'rk', x:1, n:'Konstantin Veliký', a:'313 – povolil křesťanství', d:'Na obrázku obří hlava z jeho kolosální sochy a rekonstrukce celé sochy.', t:'Konstantin udělal: Konstantinopol, Konstantinův vítězný oblouk, Konstantinovu baziliku, povolil křesťanství.', p:['konstantin']},
+ {s:'rk', x:1, n:'Konstantinova bazilika', a:'Řím – obří klenutá bazilika', d:'Dnes zbyly mohutné klenuté arkády (ruiny), další obrázky: rekonstrukce interiéru a půdorys.', p:['bazilika-ruiny','bazilika-rekonstrukce','bazilika-pudorys']},
+ {s:'rk', x:1, n:'Santa Pudenziana', a:'Řím – mozaiky', d:'V apsidě Kristus na trůnu mezi apoštoly, nad nimi kříž. Druhý obrázek: mozaika Krista (v zápiscích jen „Mozaika“).', p:['pudenziana','mozaika-kristus']},
+ {s:'rk', x:1, n:'Klášter sv. Kateřiny na Sinaji', a:'Sinaj (Egypt) – založil Justinián I.', d:'Uchovává nejstarší ikony (Kristus Pantokrator).', t:'Hvězdička v zápiscích: klášter patří i k byzantskému umění.', p:['sinaj-klaster']},
+ {s:'rk', x:1, n:'Kristus Pantokrator', a:'nejstarší ikony – klášter sv. Kateřiny na Sinaji', d:'Pantokrator = Vládce všehomíra: Kristus pravou rukou žehná, v levé drží knihu.', p:['ikona-sinaj','ikony-pantokrator']},
+ // Ravenna
+ {s:'rav', x:1, n:'Theodorichovo mauzoleum', a:'Ravenna – kamenná hrobka krále Theodoricha', d:'Dvoupatrová kamenná rotunda, střechu tvoří jediný obří kámen. Patří i k barbarskému umění.', p:['theodorich']},
+ {s:'rav', x:1, n:'Baptisterium', a:'Ravenna – 2 baptisteria (křtitelnice): ortodoxních a ariánů', d:'V kopuli mozaika křtu Krista v Jordánu – Jan Křtitel, holubice = Duch svatý, kolem apoštolové.', p:['baptisterium-kopule','baptisterium-krest']},
+ {s:'rav', x:1, n:'San Vitale', a:'Ravenna – byzantský chrám (Justinián I. a Theodora)', d:'Osmiboká cihlová stavba, uvnitř slavné mozaiky Justiniána a Theodory.', p:['san-vitale']},
+ {s:'rav', x:1, n:'Mozaika Justiniána', a:'San Vitale – císař Justinián I. s dvořany a duchovními', d:'Justinián byl stavebník chrámu.', w:'Stavebník ≠ stavitel: stavebník stavbu objednal a zaplatil, stavitel ji navrhl a postavil.', p:['justinian']},
+ {s:'rav', x:1, n:'Mozaika Theodory', a:'San Vitale – císařovna Theodora (manželka Justiniána) s dvorními dámami', d:'Protějšek mozaiky Justiniána; Theodora nese zlatý kalich.', w:'V zápiscích stojí „mozaika Theodorika“, ale je to Theodora. Theodorich je gótský král s mauzoleem.', p:['theodora']},
+ // Byzantské
+ {s:'byz', x:1, n:'Chrám sv. Marka', a:'Benátky – byzantský vliv', d:'Kupole a zlaté mozaiky, stojí na náměstí sv. Marka.', p:['marek']},
+ {s:'byz', x:1, n:'Kyjevská sv. Sofie', a:'Kyjev – chrám sv. Sofie, byzantský vliv', d:'Bílý chrám s mnoha zelenými a zlatými kopulemi.', p:['kyjev']},
+ {s:'byz', x:1, n:'Chrám Vasila Blaženého', a:'Moskva – pestré cibulové kopule', d:'Stojí na Rudém náměstí.', p:['vasil']},
+ // Islámské
+ {s:'isl', x:1, n:'Mekka – Kaaba', a:'nejposvátnější místo islámu', d:'Černá svatyně ve tvaru krychle uprostřed mešity v Mekce.', p:['kaaba']},
+ {s:'isl', x:1, n:'Skalní dóm', a:'Jeruzalém – zlatá kupole', d:'Osmiboká stavba se zlatou kupolí a modrými obklady.', p:['skalni-dom']},
+ {s:'isl', x:1, n:'Modrá mešita', a:'Istanbul – turecká mešita', d:'Velká kupole, poloviční kupole a 6 štíhlých minaretů; uvnitř modré obklady a 4 mohutné „sloní“ pilíře.', p:['modra-mesita','mesita-interier']},
+ {s:'isl', x:1, n:'Velká mešita v Cordobě', a:'Cordoba – typ: arabská mešita', d:'Les sloupů a oblouků s červenobílými pruhy.', p:['cordoba']},
+ {s:'isl', x:1, n:'Typy mešit', a:'arabská × turecká', d:'Arabská: nízká plochá sloupová síň + minaret. Turecká: velká kupole + štíhlé minarety.', t:'Arabská = Cordoba, turecká = Hagia Sofia, Modrá mešita.', p:['mesity-typy']},
+ {s:'isl', x:1, n:'Lví dvůr', a:'Granada – Alhambra', d:'Kašna nesená kamennými lvy, z ní vedou 4 kanály; kolem arkády na tenkých sloupcích.', p:['lvi-dvur']},
+ {s:'isl', x:1, n:'Alhambra', a:'Granada – palác maurských vládců', d:'Zahrady s vodními kanály a fontánami.', p:['alhambra']},
+ // Barbarské
+ {s:'barb', x:1, n:'Langobardská železná koruna', a:'koruna Langobardů', d:'Zlatá koruna s drahokamy a smaltem; podle legendy je uvnitř hřeb z Kristova kříže.', p:['zelezna-koruna']},
+ {s:'barb', x:1, n:'Drakar', a:'vikingská loď', d:'Na přídi vyřezávaná dračí hlava.', p:['vikingove']},
+ {s:'barb', x:1, n:'Irský kříž', a:'kamenný kříž s kruhem', d:'Vysoký kříž pokrytý reliéfy.', p:['irsky-kriz']},
+ {s:'barb', x:1, n:'Evangeliář z Durrow', a:'irský iluminovaný rukopis', d:'Rámy z proplétaných ornamentů, symboly evangelistů.', t:'Orel = symbol evangelisty Jana.', p:['durrow']},
+ {s:'barb', x:1, n:'Evangeliář z Kellsu', a:'irský iluminovaný rukopis', d:'Symboly 4 evangelistů, bohaté proplétané iniciály, Panna Maria s Ježíškem.', p:['kells1','kells2']},
+ // Karolinská
+ {s:'kar', x:1, n:'Palácová kaple Panny Marie v Cáchách', a:'Cáchy – kaple Karla Velikého', d:'Osmiboká kaple, vzorem byl San Vitale v Ravenně (srovnej půdorysy).', t:'Ze zápisků: půdorys vlevo je San Vitale (Ravenna).', p:['cachy-plany','cachy-int']},
+ {s:'kar', x:1, n:'Ingelheim – císařská falc', a:'falc (palác) Karla Velikého', d:'Rozlehlý areál s půlkruhovým nádvořím.', p:['ingelheim']},
+ {s:'kar', x:1, n:'Jezdecká soška Karla Velikého', a:'bronzová soška panovníka na koni', d:'Karel drží říšské jablko.', p:['karel-socha']},
+ {s:'kar', x:1, n:'Kodex aureus', a:'„zlatý kodex“ – evangelisté', d:'Obrazy evangelistů pod oblouky, zlaté iniciály.', t:'Na druhém obrázku: vlevo evangelista Jan (s orlem), vpravo Matouš (s andělem).', p:['kodex-aureus','evangeliste']},
+ // Otonská
+ {s:'oto', x:1, n:'Bazilika v Hildesheimu', a:'otonská bazilika (sv. Michal)', d:'Dva chóry a věže na obou koncích. V lodi se střídají sloupy a pilíře.', t:'Sloup – kulatý, pilíř – hranatý.', p:['hildesheim','hildesheim-plan','hildesheim-int']},
+ {s:'oto', x:1, n:'Koruna Svaté říše římské', a:'otonské zlatnictví', d:'Osmiboká koruna s křížem a obloukem, drahokamy, perly a smaltové destičky.', p:['koruna-rise']},
+ {s:'oto', x:1, n:'Evangeliář Oty III.', a:'Reichenau – otonský iluminovaný rukopis', d:'Vpravo císař Ota III. na trůnu, vlevo k němu přicházejí země říše s dary.', p:['oto-evangeliar']},
+ // Slovanské
+ {s:'slov', x:1, n:'Uherská Svatoštěpánská koruna', a:'koruna uherských králů (sv. Štěpán)', d:'Zlatá koruna s nakloněným křížkem, smaltové obrázky a řetízky s přívěsky. Druhý obrázek: král Štěpán.', p:['svatostepanska','stepan']},
+ {s:'slov', x:1, n:'Svantovít', a:'slovanský bůh', d:'Vysoký kamenný sloup s vytesanými postavami, nahoře hlava s čepicí.', p:['svantovit']},
+ // Velká Morava
+ {s:'vm', x:1, n:'Archeoskanzen Modrá', a:'Velká Morava – rekonstrukce velkomoravského hradiště', d:'Kamenný kostel, dřevěné stavby a zvonice.', w:'Forma experimentální archeologie – nic není původní.', p:['modra','modra-foto']},
+ {s:'vm', x:1, n:'Mikulčice', a:'Velká Morava – hradiště s kamennými kostely', d:'Rekonstrukce hradiště na ostrovech řeky Moravy; druhý obrázek: Mikulčice dnes (letecký pohled).', p:['mikulcice','dnes']},
+ {s:'vm', x:1, n:'Staré Město – Uherské Hradiště – Sady', a:'Velká Morava – Velehrad, Konstantin a Metoděj', d:'Model velkomoravského areálu v Sadech.', t:'Konstantin a Metoděj: hlaholice, staroslověnština.', p:['sady']},
+ {s:'vm', x:1, n:'Granulace a filigrán – gombík', a:'velkomoravské zlatnické techniky', d:'Granulace = drobné kuličky kovu připájené na povrch; filigrán = ozdoba z jemného zkrouceného drátku. Tak se zdobily náušnice, nákončí, kaptorgy (malé schránky nošené na krku) i terčík Sokolník.', t:'Vlevo gombík (= kulatý knoflík) zdobený granulací, vpravo filigránová náušnice.', p:['granulace']},
+ {s:'vm', x:1, n:'Záveskové náušnice', a:'velkomoravské šperky', d:'Půlměsíc s granulací a dlouhé řetízky s přívěsky.', p:['nausnice-zaveskove']},
+ {s:'vm', x:1, n:'Nákončí', a:'kovová ozdoba konce opasku – šlechta', d:'Vlevo nákončí s postavou se zdviženýma rukama a křížem, vpravo nákončí zdobené granulací a zelenými kameny.', t:'U levého obrázku máš v zápiscích „Metoděj?“.', p:['metodej','nakonci']},
+ {s:'vm', x:1, n:'Terčík Sokolník', a:'Velká Morava – sokolnictví', d:'Stříbrný kruhový terčík s jezdcem a sokolem.', p:['sokolnik']},
+ // Čechy
+ {s:'cz', x:1, n:'Rotunda sv. Petra a Pavla na Budči', a:'Spytihněv I. – nejstarší stojící stavba v Čechách', d:'Kulatá rotunda s věží.', p:['spytihnev']},
+ {s:'cz', x:1, n:'Bazilika sv. Jiří na Pražském hradě', a:'Vratislav I. – otonská renesance', d:'Uvnitř dlouhá loď s plochým stropem a apsidou.', p:['vratislav']},
+ {s:'cz', x:1, n:'Rotunda sv. Víta na Pražském hradě', a:'sv. Václav', d:'Na obrázku model rotundy se čtyřmi apsidami.', p:['vaclav']},
+ {s:'cz', x:1, n:'Slavníkovská Libice', a:'hradiště Slavníkovců – otonská renesance', d:'Kresba rekonstrukce kostela a staveb na hradišti.', p:['libice']}
+];
+S.forEach((x,k)=>x.k=k);
+
+const out=document.getElementById('out'), chips=document.getElementById('chips');
+const qBtn=document.getElementById('quiz'), shBtn=document.getElementById('shuffle'), rvBtn=document.getElementById('reveal'), score=document.getElementById('score');
+const dlg=document.getElementById('dlg'), dlgImg=document.getElementById('dlgImg'), dlgCap=document.getElementById('dlgCap');
+let filter='all', quiz=false, order=null;
+try{ const st=JSON.parse(localStorage.getItem('rsu-umeni')||'{}'); if(st.f&&SECTIONS.some(s=>s.id===st.f)) filter=st.f; }catch(e){}
+const save=()=>{try{localStorage.setItem('rsu-umeni',JSON.stringify({f:filter}))}catch(e){}};
+
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+const secName=id=>SECTIONS.find(x=>x.id===id).name;
+const src=p=>`img/${p}.jpg`;
+const ZOOM='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>';
+
+function card(x){
+  const thumbs = x.p.length>1 ? `<div class="thumbs">${x.p.map((p,i)=>`<button type="button" data-i="${i}" aria-label="Obrázek ${i+1}" aria-current="${i===0}"><img src="${src(p)}" alt="" loading="lazy"></button>`).join('')}</div>` : '';
+  return `<article class="card" data-k="${x.k}" tabindex="0">
+    <figure class="pic"><img src="${src(x.p[0])}" alt="" loading="lazy"><button class="zoom" type="button" aria-label="Zvětšit obrázek">${ZOOM}</button></figure>
+    ${thumbs}
+    <div class="txt">
+      <p class="sec hid">${esc(secName(x.s))}</p>
+      <h3 class="hid">${esc(x.n)}</h3>
+      <p class="attr hid">${esc(x.a)}</p>
+      ${x.d?`<p class="note hid">${esc(x.d)}</p>`:''}
+      ${x.t?`<p class="tip hid">${esc(x.t)}</p>`:''}
+      ${x.w?`<p class="tip warn hid">⚠ ${esc(x.w)}</p>`:''}
+    </div></article>`;
+}
+function render(){
+  chips.innerHTML=[{id:'all',name:'Vše'},...SECTIONS].map(s=>`<button class="chip" data-f="${s.id}" aria-pressed="${filter===s.id}">${s.name}</button>`).join('');
+  const list=S.filter(x=>(filter==='all'||x.s===filter));
+  if(!list.length){ out.innerHTML='<p class="empty">Nic tu není.</p>'; }
+  else if(order){
+    const sorted=order.map(k=>S[k]).filter(x=>list.includes(x));
+    out.innerHTML=`<section><h2>Zamícháno <small>${sorted.length} karet</small></h2><div class="grid">${sorted.map(card).join('')}</div></section>`;
+  } else {
+    out.innerHTML=SECTIONS.filter(s=>(filter==='all'||s.id===filter)&&list.some(x=>x.s===s.id)).map(s=>{
+      const xs=list.filter(x=>x.s===s.id);
+      return `<section><h2>${s.name} <small>${xs.length}</small></h2><p class="sub">${esc(s.sub)}</p><div class="grid">${xs.map(card).join('')}</div></section>`;
+    }).join('');
+  }
+  document.body.classList.toggle('quiz',quiz);
+  qBtn.setAttribute('aria-pressed',quiz); shBtn.hidden=!quiz; rvBtn.hidden=!quiz; score.hidden=!quiz;
+  rvBtn.textContent='Odkrýt vše'; upd();
+}
+function upd(){ if(!quiz) return; const all=out.querySelectorAll('.card'), op=out.querySelectorAll('.card.open'); score.textContent=`odkryto ${op.length} / ${all.length}`; }
+function shuffle(){const a=S.map(x=>x.k); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]} order=a;}
+
+chips.addEventListener('click',e=>{const b=e.target.closest('.chip'); if(!b) return; filter=b.dataset.f; save(); render();});
+qBtn.addEventListener('click',()=>{quiz=!quiz; if(quiz) shuffle(); else order=null; render();});
+shBtn.addEventListener('click',()=>{shuffle(); render(); window.scrollTo({top:0})});
+rvBtn.addEventListener('click',()=>{const cs=out.querySelectorAll('.card'); const anyClosed=[...cs].some(c=>!c.classList.contains('open')); cs.forEach(c=>c.classList.toggle('open',anyClosed)); rvBtn.textContent=anyClosed?'Zakrýt vše':'Odkrýt vše'; upd();});
+
+out.addEventListener('click',e=>{
+  const c=e.target.closest('.card'); if(!c) return;
+  const x=S[+c.dataset.k];
+  const t=e.target.closest('.thumbs button');
+  if(t){ const i=+t.dataset.i; c.querySelector('.pic img').src=src(x.p[i]); c.querySelectorAll('.thumbs button').forEach(b=>b.setAttribute('aria-current',b===t)); c.dataset.i=i; return; }
+  if(e.target.closest('.zoom')){
+    dlgImg.src=src(x.p[+(c.dataset.i||0)]);
+    dlgCap.textContent = (!quiz||c.classList.contains('open')) ? x.n : '';
+    if(dlg.showModal) dlg.showModal(); return;
+  }
+  if(quiz){ c.classList.toggle('open'); upd(); }
+});
+out.addEventListener('keydown',e=>{ if(!quiz) return; if((e.key==='Enter'||e.key===' ')&&e.target.classList.contains('card')){e.preventDefault(); e.target.classList.toggle('open'); upd();} });
+document.getElementById('dlgClose').addEventListener('click',()=>dlg.close());
+dlg.addEventListener('click',e=>{ if(e.target===dlg) dlg.close(); });
+render();
+</script>
+</body>
+</html>
