@@ -1,6 +1,13 @@
 {
   "lekce": [
     {
+      "slug": "rane-stredoveke",
+      "href": "lekce/rane-stredoveke/index.html",
+      "title": "Raně středověké umění",
+      "description": "Výpisky z dějin umění: od Konstantina Velikého po Přemyslovce. Obrázky jsou z tvých zápisků. Jsou tu jen věci, které máš v zápiscích červeně (do testu), i s pojmy a poznámkami k nim. U karet s více obrázky přepínáš…",
+      "date": "2026-11-20"
+    },
+    {
       "slug": "svati-a-atributy",
       "href": "lekce/svati-a-atributy/index.html",
       "title": "Svatí a atributy",
